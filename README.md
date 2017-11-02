@@ -3,9 +3,9 @@
 
 ### Contains
 
-> Queries interfaces
-> Command interfaces
-> QueryHandlers interfaces
-> CommandHandlers interfaces
-> Simple Mediator
-> Result and Error objects
+* Queries interfaces
+* Command interfaces
+* QueryHandlers interfaces
+* CommandHandlers interfaces
+* Simple Mediator
+* Result and Error objects
