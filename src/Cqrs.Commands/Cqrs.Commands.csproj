@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>PetProjects.Framework.Cqrs.Commands</AssemblyName>
+    <RootNamespace>PetProjects.Framework.Cqrs.Commands</RootNamespace>
+  </PropertyGroup>
+
+</Project>
