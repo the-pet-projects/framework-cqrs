@@ -26,6 +26,14 @@ namespace PetProjects.Framework.Cqrs.Mediator
             return handler.Handle(query);
         }
 
+        public async Task<TResponse> QueryAsync<TQuery, TResponse>(TQuery query)
+            where TQuery : IQuery
+        {
+            var handler = this.Create<IQueryHandlerAsync<TQuery, TResponse>>();
+
+            return await handler.HandleAsync(query);
+        }
+
         public void RunCommand<TCommand>(TCommand command)
             where TCommand : ICommand
         {
@@ -34,20 +42,12 @@ namespace PetProjects.Framework.Cqrs.Mediator
             handler.Handle(command);
         }
 
-        public TResponse RunCommandWithFeedback<TCommand, TResponse>(TCommand command)
+        public TResponse RunCommandWithResponse<TCommand, TResponse>(TCommand command)
             where TCommand : ICommand
         {
             var handler = this.Create<ICommandHandlerWithResponse<TCommand, TResponse>>();
 
             return handler.Handle(command);
-        }
-
-        public async Task<TResponse> QueryAsync<TQuery, TResponse>(TQuery query)
-            where TQuery : IQuery
-        {
-            var handler = this.Create<IQueryHandlerAsync<TQuery, TResponse>>();
-
-            return await handler.HandleAsync(query);
         }
 
         public async Task RunCommandAsync<TCommand>(TCommand command)
@@ -58,7 +58,7 @@ namespace PetProjects.Framework.Cqrs.Mediator
             await handler.HandleAsync(command);
         }
 
-        public async Task<TResponse> RunCommandWithFeedbackAsync<TCommand, TResponse>(TCommand command) where TCommand : ICommand
+        public async Task<TResponse> RunCommandWithResponseAsync<TCommand, TResponse>(TCommand command) where TCommand : ICommand
         {
             var handler = this.Create<ICommandHandlerWithResponseAsync<TCommand, TResponse>>();
 
