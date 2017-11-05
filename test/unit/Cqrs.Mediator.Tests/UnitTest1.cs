@@ -1,4 +1,3 @@
-using System;
 using Xunit;
 
 namespace Cqrs.Mediator.Tests
@@ -8,7 +7,6 @@ namespace Cqrs.Mediator.Tests
         [Fact]
         public void Test1()
         {
-
         }
     }
 }

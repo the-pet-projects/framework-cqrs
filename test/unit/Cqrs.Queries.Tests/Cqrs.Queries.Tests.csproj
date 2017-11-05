@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <AssemblyName>PetProjects.Framework.Cqrs.Queries.Tests</AssemblyName>
+
+    <RootNamespace>PetProjects.Framework.Cqrs.Queries.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

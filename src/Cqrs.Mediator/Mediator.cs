@@ -3,7 +3,10 @@ namespace PetProjects.Framework.Cqrs.Mediator
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using PetProjects.Framework.Cqrs.Commands;
+    using PetProjects.Framework.Cqrs.Commands.Async;
+    using PetProjects.Framework.Cqrs.Commands.Sync;
     using PetProjects.Framework.Cqrs.Queries;
 
     public class Mediator : IMediator
