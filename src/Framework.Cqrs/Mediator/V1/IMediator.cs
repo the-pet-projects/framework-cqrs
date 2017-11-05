@@ -1,7 +1,6 @@
-﻿namespace PetProjects.Framework.Cqrs.Mediator
+﻿namespace PetProjects.Framework.Cqrs.Mediator.V1
 {
     using System.Threading.Tasks;
-
     using PetProjects.Framework.Cqrs.Commands;
     using PetProjects.Framework.Cqrs.Queries;
 

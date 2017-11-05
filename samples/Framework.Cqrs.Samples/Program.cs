@@ -6,6 +6,7 @@
     using Commands;
     using PetProjects.Framework.Cqrs.Commands;
     using PetProjects.Framework.Cqrs.Mediator;
+    using PetProjects.Framework.Cqrs.Mediator.V1;
     using PetProjects.Framework.Cqrs.Queries;
     using Queries;
 
