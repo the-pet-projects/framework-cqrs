@@ -5,8 +5,6 @@ namespace PetProjects.Framework.Cqrs.Mediator
     using System.Threading.Tasks;
 
     using PetProjects.Framework.Cqrs.Commands;
-    using PetProjects.Framework.Cqrs.Commands.Async;
-    using PetProjects.Framework.Cqrs.Commands.Sync;
     using PetProjects.Framework.Cqrs.Queries;
 
     public class Mediator : IMediator
@@ -21,7 +19,7 @@ namespace PetProjects.Framework.Cqrs.Mediator
         }
 
         public TResponse Query<TQuery, TResponse>(TQuery query)
-            where TQuery : IQuery<TResponse>
+            where TQuery : IQuery
         {
             var handler = this.Create<IQueryHandler<TQuery, TResponse>>();
 
@@ -45,9 +43,9 @@ namespace PetProjects.Framework.Cqrs.Mediator
         }
 
         public async Task<TResponse> QueryAsync<TQuery, TResponse>(TQuery query)
-            where TQuery : IQuery<Task<TResponse>>
+            where TQuery : IQuery
         {
-            var handler = this.Create<IQueryHandlerAsync<IQuery<Task<TResponse>>, TResponse>>();
+            var handler = this.Create<IQueryHandlerAsync<TQuery, TResponse>>();
 
             return await handler.HandleAsync(query);
         }

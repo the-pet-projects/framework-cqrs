@@ -1,6 +1,6 @@
 namespace PetProjects.Framework.Cqrs.Queries
 {
-    public interface IQuery<TResponse>
+    public interface IQuery
     {
     }
 }
