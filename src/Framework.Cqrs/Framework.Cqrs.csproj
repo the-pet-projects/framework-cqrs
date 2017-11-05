@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>PetProjects.Framework.Cqrs</AssemblyName>
+    <RootNamespace>PetProjects.Framework.Cqrs</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Mediator\" />
+    <Folder Include="Queries\" />
+  </ItemGroup>
+
+</Project>

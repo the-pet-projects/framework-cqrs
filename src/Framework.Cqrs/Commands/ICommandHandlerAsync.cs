@@ -1,4 +1,4 @@
-namespace PetProjects.Framework.Cqrs.Commands.Async
+namespace PetProjects.Framework.Cqrs.Commands
 {
     using System.Threading.Tasks;
 

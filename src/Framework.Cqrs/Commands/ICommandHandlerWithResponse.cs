@@ -1,4 +1,4 @@
-namespace PetProjects.Framework.Cqrs.Commands.Sync
+namespace PetProjects.Framework.Cqrs.Commands
 {
 
     public interface ICommandHandlerWithResponse<in TCommand, TResponse>

@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace Cqrs.Queries.Tests
+namespace Framework.Cqrs.Tests
 {
     public class UnitTest1
     {
