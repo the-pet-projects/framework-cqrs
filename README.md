@@ -8,4 +8,3 @@
 * QueryHandlers interfaces
 * CommandHandlers interfaces
 * Simple Mediator
-* Result and Error objects
