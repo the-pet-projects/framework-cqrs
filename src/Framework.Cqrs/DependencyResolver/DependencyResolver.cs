@@ -6,16 +6,16 @@ namespace PetProjects.Framework.Cqrs.DependencyResolver
 
     public static class DependencyResolver
     {
-        public static IDependencyResolver CurrentResolver;
+        private static IDependencyResolver currentResolver;
 
         public static void SetResolver(IDependencyResolver resolver)
         {
-            CurrentResolver = resolver;
+            currentResolver = resolver;
         }
 
         public static void SetResolver(Func<Type, object> getInstance, Func<Type, IEnumerable<object>> getInstances)
         {
-            CurrentResolver = new DelegateDependencyResolver(getInstance, getInstances);
+            currentResolver = new DelegateDependencyResolver(getInstance, getInstances);
         }
 
         private class DelegateDependencyResolver : IDependencyResolver

@@ -7,6 +7,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using PetProjects.Framework.Cqrs.Commands;
     using PetProjects.Framework.Cqrs.Queries;
+    using PetProjects.Framework.Cqrs.Resolvers;
     using Queries;
     using MediatorV1 = PetProjects.Framework.Cqrs.Mediator.V1;
     using MediatorV2 = PetProjects.Framework.Cqrs.Mediator.V2;
@@ -33,7 +34,7 @@
             var container = new ServiceCollection();
             container.AddSingleton<ICommandHandlerAsync<GreetingCommand>, GreetingCommandHandlerAsync>();
             container.AddSingleton<IQueryHandlerAsync<GetUserByNameQuery, User>>(new GetUserByNameQueryHandlerAsync(users));
-            container.AddSingleton<MediatorV2.IMediator>(new MediatorV2.Mediator(new AspNetCoreResolver.AspNetCoreResolver(container)));
+            container.AddSingleton<MediatorV2.IMediator>(new MediatorV2.Mediator(new AspNetCoreResolver(container)));
 
             MainAsync(container).Wait();
 

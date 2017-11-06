@@ -5,6 +5,7 @@ namespace PetProjects.Framework.Cqrs.Utils
         public static readonly UnitType Default = new UnitType();
 
         private UnitType()
-        { }
+        {
+        }
     }
 }

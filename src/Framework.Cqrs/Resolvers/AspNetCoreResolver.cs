@@ -1,9 +1,9 @@
-namespace Framework.Cqrs.Samples.AspNetCoreResolver
+namespace PetProjects.Framework.Cqrs.Resolvers
 {
     using System;
     using System.Collections.Generic;
+    using DependencyResolver;
     using Microsoft.Extensions.DependencyInjection;
-    using PetProjects.Framework.Cqrs.DependencyResolver;
 
     public class AspNetCoreResolver : IDependencyResolver
     {

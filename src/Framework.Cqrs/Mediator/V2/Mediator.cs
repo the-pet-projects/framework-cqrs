@@ -53,36 +53,31 @@ namespace PetProjects.Framework.Cqrs.Mediator.V2
 
         private class MediatorPlan<TResult>
         {
-            private readonly MethodInfo HandleMethod;
-            private readonly Func<object> HandlerInstanceBuilder;
+            private readonly MethodInfo handleMethod;
+            private readonly Func<object> handlerInstanceBuilder;
 
             public MediatorPlan(Type handlerTypeTemplate, string handlerMethodName, Type messageType, IDependencyResolver dependencyResolver)
             {
                 var handlerType = handlerTypeTemplate.MakeGenericType(messageType, typeof(TResult));
 
-                HandleMethod = this.GetHandlerMethod(handlerType, handlerMethodName, messageType);
+                this.handleMethod = this.GetHandlerMethod(handlerType, handlerMethodName, messageType);
 
-                HandlerInstanceBuilder = () => dependencyResolver.GetInstance(handlerType);
-            }
-
-            private MethodInfo GetHandlerMethod(Type handlerType, string handlerMethodName, Type messageType)
-            {
-                return handlerType
-                    .GetMethod(handlerMethodName,
-                        BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod,
-                        null, CallingConventions.HasThis,
-                        new[] { messageType },
-                        null);
+                this.handlerInstanceBuilder = () => dependencyResolver.GetInstance(handlerType);
             }
 
             public TResult Invoke(object message)
             {
-                return (TResult)HandleMethod.Invoke(HandlerInstanceBuilder(), new[] { message });
+                return (TResult)this.handleMethod.Invoke(this.handlerInstanceBuilder(), new[] { message });
             }
 
             public async Task<TResult> InvokeAsync(object message)
             {
-                return await (Task<TResult>)HandleMethod.Invoke(HandlerInstanceBuilder(), new[] { message });
+                return await(Task<TResult>)this.handleMethod.Invoke(this.handlerInstanceBuilder(), new[] { message });
+            }
+
+            private MethodInfo GetHandlerMethod(Type handlerType, string handlerMethodName, Type messageType)
+            {
+                return handlerType.GetMethod(handlerMethodName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod, null, CallingConventions.HasThis, new[] { messageType }, null);
             }
         }
     }
