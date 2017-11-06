@@ -8,7 +8,7 @@
     {
         TResponse Query<TQuery, TResponse>(TQuery query) where TQuery : IQuery;
 
-        Task<TResponse> QueryAsync<TQuery, TResponse>(TQuery query) where TQuery : IQuery;
+        Task<TResponse> QueryAsync<TQuery, TResponse>(TQuery query) where TQuery : IQuery<TResponse>;
 
         void RunCommand<TCommand>(TCommand command) where TCommand : ICommand;
 

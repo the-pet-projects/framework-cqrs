@@ -26,7 +26,7 @@ namespace PetProjects.Framework.Cqrs.Mediator.V1
         }
 
         public async Task<TResponse> QueryAsync<TQuery, TResponse>(TQuery query)
-            where TQuery : IQuery
+            where TQuery : IQuery<TResponse>
         {
             var handler = this.Create<IQueryHandlerAsync<TQuery, TResponse>>();
 

@@ -7,7 +7,6 @@ namespace PetProjects.Framework.Cqrs.Mediator.V2
     using PetProjects.Framework.Cqrs.Commands;
     using PetProjects.Framework.Cqrs.DependencyResolver;
     using PetProjects.Framework.Cqrs.Queries;
-    using PetProjects.Framework.Cqrs.Utils;
 
     public class Mediator : IMediator
     {
@@ -18,38 +17,38 @@ namespace PetProjects.Framework.Cqrs.Mediator.V2
             this.dependencyResolver = dependencyResolver;
         }
 
-        public TResponse Query<TResponse>(IQuery query)
+        public TResponse Query<TResponse>(IQuery<TResponse> query)
         {
             var plan = new MediatorPlan<TResponse>(typeof(IQueryHandler<,>), "Handle", query.GetType(), this.dependencyResolver);
 
             return plan.Invoke(query);
         }
 
-        public async Task<TResponse> QueryAsync<TResponse>(IQuery query)
+        public async Task<TResponse> QueryAsync<TResponse>(IQuery<TResponse> query)
         {
             var plan = new MediatorPlan<TResponse>(typeof(IQueryHandlerAsync<,>), "HandleAsync", query.GetType(), this.dependencyResolver);
 
             return await plan.InvokeAsync(query);
         }
 
-        public void RunCommand(ICommand command)
+        public void RunCommand<TCommand>(TCommand command) where TCommand : ICommand
         {
-            throw new NotImplementedException();
+            var handlers = this.dependencyResolver.GetInstance<ICommandHandler<TCommand>>();
+
+            foreach (var handler in handlers)
+            {
+                handler.Handle(command);
+            }
         }
 
-        public Task RunCommandAsync(ICommand command)
+        public async Task RunCommandAsync<TCommand>(TCommand command) where TCommand : ICommand
         {
-            throw new NotImplementedException();
-        }
+            var handlers = this.dependencyResolver.GetInstance<ICommandHandlerAsync<TCommand>>();
 
-        public TResponse RunCommandWithResponse<TResponse>(ICommand command)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<TResponse> RunCommandWithResponseAsync<TResponse>(ICommand command)
-        {
-            throw new NotImplementedException();
+            foreach (var handler in handlers)
+            {
+                await handler.HandleAsync(command);
+            }
         }
 
         private class MediatorPlan<TResult>
@@ -61,7 +60,7 @@ namespace PetProjects.Framework.Cqrs.Mediator.V2
             {
                 var handlerType = handlerTypeTemplate.MakeGenericType(messageType, typeof(TResult));
 
-                HandleMethod = GetHandlerMethod(handlerType, handlerMethodName, messageType);
+                HandleMethod = this.GetHandlerMethod(handlerType, handlerMethodName, messageType);
 
                 HandlerInstanceBuilder = () => dependencyResolver.GetInstance(handlerType);
             }

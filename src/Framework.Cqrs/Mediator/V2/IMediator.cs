@@ -8,16 +8,12 @@
 
     public interface IMediator
     {
-        TResponse Query<TResponse>(IQuery query);
+        TResponse Query<TResponse>(IQuery<TResponse> query);
 
-        Task<TResponse> QueryAsync<TResponse>(IQuery query);
+        Task<TResponse> QueryAsync<TResponse>(IQuery<TResponse> query);
 
-        void RunCommand(ICommand command);
+        void RunCommand<TCommand>(TCommand command) where TCommand : ICommand;
 
-        TResponse RunCommandWithResponse<TResponse>(ICommand command);
-
-        Task RunCommandAsync(ICommand command);
-
-        Task<TResponse> RunCommandWithResponseAsync<TResponse>(ICommand command);
+        Task RunCommandAsync<TCommand>(TCommand command) where TCommand : ICommand;
     }
 }
