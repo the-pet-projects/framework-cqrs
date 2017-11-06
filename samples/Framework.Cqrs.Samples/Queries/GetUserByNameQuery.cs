@@ -2,7 +2,7 @@
 {
     using PetProjects.Framework.Cqrs.Queries;
 
-    public class GetUserByNameQuery : IQuery
+    public class GetUserByNameQuery : IQuery<User>
     {
         public GetUserByNameQuery(string name)
         {
