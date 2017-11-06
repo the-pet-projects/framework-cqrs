@@ -21,12 +21,12 @@
                 new User("João", 25)
             };
 
-            //Console.WriteLine("Mediator V1");
-            //var mediator = new MediatorV1.Mediator();
-            //mediator.Register<ICommandHandlerAsync<GreetingCommand>>(c => new GreetingCommandHandlerAsync());
-            //mediator.Register<IQueryHandlerAsync<GetUserByNameQuery, User>>(c => new GetUserByNameQueryHandlerAsync(users));
+            Console.WriteLine("Mediator V1");
+            var mediator = new MediatorV1.Mediator();
+            mediator.Register<ICommandHandlerAsync<GreetingCommand>>(c => new GreetingCommandHandlerAsync());
+            mediator.Register<IQueryHandlerAsync<GetUserByNameQuery, User>>(c => new GetUserByNameQueryHandlerAsync(users));
 
-            //MainAsync(mediator).Wait();
+            MainAsync(mediator).Wait();
 
             Console.WriteLine("Mediator V2 - With DI");
 
