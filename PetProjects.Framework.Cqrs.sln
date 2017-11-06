@@ -7,7 +7,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{D57F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.Cqrs", "src\Framework.Cqrs\Framework.Cqrs.csproj", "{96D540B9-A776-413A-A5D7-5B22EF24285E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework.Cqrs.Samples", "samples\Framework.Cqrs.Samples\Framework.Cqrs.Samples.csproj", "{1514DE76-8BEC-4680-977E-F612876623B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.Cqrs.Samples", "samples\Framework.Cqrs.Samples\Framework.Cqrs.Samples.csproj", "{1514DE76-8BEC-4680-977E-F612876623B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deploy", "Deploy", "{D10B8322-5DBB-4FC5-AA03-7266DB408EBC}"
+	ProjectSection(SolutionItems) = preProject
+		Jenkinsfile = Jenkinsfile
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{87986091-3B08-4F14-BA90-CDE1DB47F5AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework.Cqrs.Tests", "test\unit\Framework.Cqrs.Tests\Framework.Cqrs.Tests.csproj", "{6C6D658A-DF37-4492-995A-BA863B561404}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +32,17 @@ Global
 		{1514DE76-8BEC-4680-977E-F612876623B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1514DE76-8BEC-4680-977E-F612876623B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1514DE76-8BEC-4680-977E-F612876623B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C6D658A-DF37-4492-995A-BA863B561404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C6D658A-DF37-4492-995A-BA863B561404}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C6D658A-DF37-4492-995A-BA863B561404}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C6D658A-DF37-4492-995A-BA863B561404}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1514DE76-8BEC-4680-977E-F612876623B1} = {D57F2E68-7C9D-45CA-809F-EA251FE22AB6}
+		{6C6D658A-DF37-4492-995A-BA863B561404} = {87986091-3B08-4F14-BA90-CDE1DB47F5AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A97911A4-880F-47BD-819F-045875E0FD8C}
