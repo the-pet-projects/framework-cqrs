@@ -1,14 +1,14 @@
-﻿namespace Framework.Cqrs.Samples
+﻿namespace PetProjects.Framework.Cqrs.Samples
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Commands;
+    using Cqrs.Commands;
     using Microsoft.Extensions.DependencyInjection;
-    using PetProjects.Framework.Cqrs.Commands;
     using PetProjects.Framework.Cqrs.Queries;
     using PetProjects.Framework.Cqrs.Resolvers;
-    using Queries;
+    using PetProjects.Framework.Cqrs.Samples.Queries;
     using MediatorV1 = PetProjects.Framework.Cqrs.Mediator.V1;
     using MediatorV2 = PetProjects.Framework.Cqrs.Mediator.V2;
 
@@ -36,7 +36,7 @@
             container.AddSingleton<IQueryHandlerAsync<GetUserByNameQuery, User>>(new GetUserByNameQueryHandlerAsync(users));
             container.AddSingleton<MediatorV2.IMediator>(new MediatorV2.Mediator(new AspNetCoreResolver(container)));
 
-            MainAsync(container).Wait();
+            MainWithDiAsync(container).Wait();
 
             Console.ReadLine();
         }
@@ -55,7 +55,7 @@
             Console.WriteLine($"Name: {result.Name} | Age: {result.Age}");
         }
 
-        public static async Task MainAsync(IServiceCollection container)
+        public static async Task MainWithDiAsync(IServiceCollection container)
         {
             var sp = container.BuildServiceProvider();
             var mediator = sp.GetService<MediatorV2.IMediator>();
