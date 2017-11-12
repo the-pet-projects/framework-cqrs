@@ -1,4 +1,4 @@
-﻿namespace Framework.Cqrs.Samples.Queries
+﻿namespace PetProjects.Framework.Cqrs.Samples.Queries
 {
     using System.Collections.Generic;
     using System.Linq;

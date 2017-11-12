@@ -1,4 +1,4 @@
-﻿namespace Framework.Cqrs.Samples.Commands
+﻿namespace PetProjects.Framework.Cqrs.Samples.Commands
 {
     using PetProjects.Framework.Cqrs.Commands;
 

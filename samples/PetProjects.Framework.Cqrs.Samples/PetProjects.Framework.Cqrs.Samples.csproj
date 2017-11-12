@@ -5,4 +5,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="PetProjects.Framework.Cqrs" Version="0.9.1711.5" />
+  </ItemGroup>
+
 </Project>
