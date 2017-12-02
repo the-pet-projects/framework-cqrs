@@ -20,11 +20,11 @@ namespace PetProjects.Framework.Cqrs.Utils
 
         public virtual Exception Exception { get; }
 
+        public virtual bool Success => !this.HasException();
+
         public virtual bool HasException()
         {
             return this.Exception != null;
         }
-
-        public virtual bool Success => !this.HasException();
     }
 }
