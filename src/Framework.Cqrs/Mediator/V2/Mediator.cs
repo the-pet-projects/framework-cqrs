@@ -1,12 +1,14 @@
 namespace PetProjects.Framework.Cqrs.Mediator.V2
 {
     using System;
-    using System.Reflection;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using PetProjects.Framework.Cqrs.Commands;
     using PetProjects.Framework.Cqrs.DependencyResolver;
     using PetProjects.Framework.Cqrs.Queries;
+    using PetProjects.Framework.Cqrs.Utils;
 
     public class Mediator : IMediator
     {
@@ -17,23 +19,50 @@ namespace PetProjects.Framework.Cqrs.Mediator.V2
             this.dependencyResolver = dependencyResolver;
         }
 
-        public TResponse Query<TResponse>(IQuery<TResponse> query)
+        public IEnumerable<Response<TResponse>> Query<TQuery, TResponse>(TQuery query) where TQuery : IQuery<TResponse>
         {
-            var plan = new MediatorPlan<TResponse>(typeof(IQueryHandler<,>), "Handle", query.GetType(), this.dependencyResolver);
+            var responses = new List<Response<TResponse>>();
+            var handlers = this.dependencyResolver.ResolveDependencies<IQueryHandler<TQuery, TResponse>>();
 
-            return plan.Invoke(query);
+            foreach (var handler in handlers)
+            {
+                try
+                {
+                    responses.Add(new Response<TResponse>(handler.Handle(query)));
+                }
+                catch (Exception ex)
+                {
+                    responses.Add(new Response<TResponse>(ex));
+                }
+            }
+
+            return responses;
         }
 
-        public async Task<TResponse> QueryAsync<TResponse>(IQuery<TResponse> query)
+        public async Task<IEnumerable<Response<TResponse>>> QueryAsync<TQuery, TResponse>(TQuery query) where TQuery : IQuery<TResponse>
         {
-            var plan = new MediatorPlan<TResponse>(typeof(IQueryHandlerAsync<,>), "HandleAsync", query.GetType(), this.dependencyResolver);
+            var responses = new List<Response<TResponse>>();
+            var handlers = this.dependencyResolver.ResolveDependencies<IQueryHandlerAsync<TQuery, TResponse>>();
+            var tasks = new List<Task<TResponse>>();
 
-            return await plan.InvokeAsync(query);
+            foreach (var handler in handlers)
+            {
+                try
+                {
+                    tasks.Add(handler.HandleAsync(query));
+                }
+                catch (Exception ex)
+                {
+                    responses.Add(new Response<TResponse>(ex));
+                }
+            }
+
+            return await this.CollectResultsFromAsyncQueryHandlers(responses, tasks).ConfigureAwait(false);
         }
 
         public void RunCommand<TCommand>(TCommand command) where TCommand : ICommand
         {
-            var handlers = this.dependencyResolver.GetInstance<ICommandHandler<TCommand>>();
+            var handlers = this.dependencyResolver.ResolveDependencies<ICommandHandler<TCommand>>();
 
             foreach (var handler in handlers)
             {
@@ -43,42 +72,56 @@ namespace PetProjects.Framework.Cqrs.Mediator.V2
 
         public async Task RunCommandAsync<TCommand>(TCommand command) where TCommand : ICommand
         {
-            var handlers = this.dependencyResolver.GetInstance<ICommandHandlerAsync<TCommand>>();
+            var handlers = this.dependencyResolver.ResolveDependencies<ICommandHandlerAsync<TCommand>>();
+            var tasks = new List<Task>();
+            var exceptions = new List<Exception>();
 
             foreach (var handler in handlers)
             {
-                await handler.HandleAsync(command);
+                try
+                {
+                    tasks.Add(handler.HandleAsync(command));
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Add(ex);
+                }
+            }
+
+            try
+            {
+                await Task.WhenAll(tasks).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                exceptions.AddRange(tasks.Where(t => t.Exception != null).Select(t => t.Exception));
             }
         }
 
-        private class MediatorPlan<TResult>
+        private async Task<ICollection<Response<TResponse>>> CollectResultsFromAsyncQueryHandlers<TResponse>(ICollection<Response<TResponse>> responses, ICollection<Task<TResponse>> tasks)
         {
-            private readonly MethodInfo handleMethod;
-            private readonly Func<object> handlerInstanceBuilder;
-
-            public MediatorPlan(Type handlerTypeTemplate, string handlerMethodName, Type messageType, IDependencyResolver dependencyResolver)
+            try
             {
-                var handlerType = handlerTypeTemplate.MakeGenericType(messageType, typeof(TResult));
-
-                this.handleMethod = this.GetHandlerMethod(handlerType, handlerMethodName, messageType);
-
-                this.handlerInstanceBuilder = () => dependencyResolver.GetInstance(handlerType);
+                await Task.WhenAll(tasks).ConfigureAwait(false);
+            }
+            catch
+            {
+                // ignored
             }
 
-            public TResult Invoke(object message)
+            foreach (var task in tasks)
             {
-                return (TResult)this.handleMethod.Invoke(this.handlerInstanceBuilder(), new[] { message });
+                try
+                {
+                    responses.Add(new Response<TResponse>(task.Result));
+                }
+                catch (AggregateException ex)
+                {
+                    responses.Add(new Response<TResponse>(ex.InnerException));
+                }
             }
 
-            public async Task<TResult> InvokeAsync(object message)
-            {
-                return await(Task<TResult>)this.handleMethod.Invoke(this.handlerInstanceBuilder(), new[] { message });
-            }
-
-            private MethodInfo GetHandlerMethod(Type handlerType, string handlerMethodName, Type messageType)
-            {
-                return handlerType.GetMethod(handlerMethodName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod, null, CallingConventions.HasThis, new[] { messageType }, null);
-            }
+            return responses;
         }
     }
 }

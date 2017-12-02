@@ -18,7 +18,7 @@ namespace PetProjects.Framework.Cqrs.Mediator.V1
         }
 
         public TResponse Query<TQuery, TResponse>(TQuery query)
-            where TQuery : IQuery
+            where TQuery : IQuery<TResponse>
         {
             var handler = this.Create<IQueryHandler<TQuery, TResponse>>();
 

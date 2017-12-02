@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.Cqrs", "src\Framework.Cqrs\Framework.Cqrs.csproj", "{96D540B9-A776-413A-A5D7-5B22EF24285E}"
 EndProject
@@ -13,6 +13,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{87986091-3B08-4F14-BA90-CDE1DB47F5AA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.Cqrs.Tests", "test\unit\Framework.Cqrs.Tests\Framework.Cqrs.Tests.csproj", "{6C6D658A-DF37-4492-995A-BA863B561404}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework.Cqrs.Extensions.AspNetCore", "src\Framework.Cqrs.Extensions.AspNetCore\Framework.Cqrs.Extensions.AspNetCore.csproj", "{C54E9631-3304-4566-AB24-EA124CA4727E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,6 +30,10 @@ Global
 		{6C6D658A-DF37-4492-995A-BA863B561404}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C6D658A-DF37-4492-995A-BA863B561404}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C6D658A-DF37-4492-995A-BA863B561404}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C54E9631-3304-4566-AB24-EA124CA4727E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C54E9631-3304-4566-AB24-EA124CA4727E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C54E9631-3304-4566-AB24-EA124CA4727E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C54E9631-3304-4566-AB24-EA124CA4727E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,6 @@
 ﻿namespace PetProjects.Framework.Cqrs.Mediator.V2
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using PetProjects.Framework.Cqrs.Commands;
@@ -8,9 +9,9 @@
 
     public interface IMediator
     {
-        TResponse Query<TResponse>(IQuery<TResponse> query);
+        IEnumerable<Response<TResponse>> Query<TQuery, TResponse>(TQuery query) where TQuery : IQuery<TResponse>;
 
-        Task<TResponse> QueryAsync<TResponse>(IQuery<TResponse> query);
+        Task<IEnumerable<Response<TResponse>>> QueryAsync<TQuery, TResponse>(TQuery query) where TQuery : IQuery<TResponse>;
 
         void RunCommand<TCommand>(TCommand command) where TCommand : ICommand;
 

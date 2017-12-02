@@ -6,7 +6,7 @@
 
     public interface IMediator
     {
-        TResponse Query<TQuery, TResponse>(TQuery query) where TQuery : IQuery;
+        TResponse Query<TQuery, TResponse>(TQuery query) where TQuery : IQuery<TResponse>;
 
         Task<TResponse> QueryAsync<TQuery, TResponse>(TQuery query) where TQuery : IQuery<TResponse>;
 

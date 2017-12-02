@@ -28,10 +28,17 @@ namespace PetProjects.Framework.Cqrs.DependencyResolver
                 this.getInstance = getInstance;
                 this.getInstances = getInstances;
             }
+            
+            public IEnumerable<T> ResolveDependencies<T>() => Enumerable.OfType<T>(this.getInstances(typeof(T)));
 
-            public object GetInstance(Type type) => this.getInstance(type);
+            public T ResolveFirstDependency<T>()
+            {
+                return (T)this.getInstance(typeof(T));
+            }
 
-            public IEnumerable<T> GetInstance<T>() => Enumerable.OfType<T>(this.getInstances(typeof(T)));
+            public void Dispose()
+            {
+            }
         }
     }
 }
