@@ -5,15 +5,15 @@
 
     public interface IDependencyResolverBuilder
     {
-        void RegisterQueryHandlerAsync<THandler, TQuery, TResponse>()
+        IDependencyResolverBuilder RegisterQueryHandlerAsync<THandler, TQuery, TResponse>()
             where THandler : class, IQueryHandlerAsync<TQuery, TResponse>
             where TQuery : IQuery<TResponse>;
 
-        void RegisterCommandHandlerAsync<THandler, TCommand>()
+        IDependencyResolverBuilder RegisterCommandHandlerAsync<THandler, TCommand>()
             where THandler : class, ICommandHandlerAsync<TCommand>
             where TCommand : ICommand;
 
-        void RegisterCommandHandlerWithResponseAsync<THandler, TCommand, TResponse>()
+        IDependencyResolverBuilder RegisterCommandHandlerWithResponseAsync<THandler, TCommand, TResponse>()
             where THandler : class, ICommandHandlerWithResponseAsync<TCommand, TResponse>
             where TCommand : ICommand;
     }

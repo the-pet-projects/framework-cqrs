@@ -14,25 +14,28 @@
             this.collection = collection;
         }
 
-        public void RegisterQueryHandlerAsync<THandler, TQuery, TResponse>()
+        public IDependencyResolverBuilder RegisterQueryHandlerAsync<THandler, TQuery, TResponse>()
             where THandler : class, IQueryHandlerAsync<TQuery, TResponse>
             where TQuery : IQuery<TResponse>
         {
             this.collection.AddScoped<IQueryHandlerAsync<TQuery, TResponse>, THandler>();
+            return this;
         }
 
-        public void RegisterCommandHandlerAsync<THandler, TCommand>()
+        public IDependencyResolverBuilder RegisterCommandHandlerAsync<THandler, TCommand>()
             where THandler : class, ICommandHandlerAsync<TCommand>
             where TCommand : ICommand
         {
             this.collection.AddScoped<ICommandHandlerAsync<TCommand>, THandler>();
+            return this;
         }
 
-        public void RegisterCommandHandlerWithResponseAsync<THandler, TCommand, TResponse>()
+        public IDependencyResolverBuilder RegisterCommandHandlerWithResponseAsync<THandler, TCommand, TResponse>()
             where THandler : class, ICommandHandlerWithResponseAsync<TCommand, TResponse>
             where TCommand : ICommand
         {
             this.collection.AddScoped<ICommandHandlerWithResponseAsync<TCommand, TResponse>, THandler>();
+            return this;
         }
 
         public IServiceCollection GetServiceCollection()
