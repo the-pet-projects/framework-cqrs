@@ -1,12 +1,21 @@
 ﻿namespace PetProjects.Framework.Cqrs.Extensions.AspNetCore
 {
+    using System.Collections.Generic;
     using Microsoft.Extensions.DependencyInjection;
     using PetProjects.Framework.Cqrs.Commands;
     using PetProjects.Framework.Cqrs.DependencyResolver;
     using PetProjects.Framework.Cqrs.Queries;
 
-    internal class AspNetCoreResolverBuilder : IDependencyResolverBuilder
+    public class AspNetCoreResolverBuilder : IDependencyResolverBuilder
     {
+        public static readonly IReadOnlyDictionary<Lifetime, ServiceLifetime> LifetimeMapper =
+            new Dictionary<Lifetime, ServiceLifetime>
+            {
+                { Lifetime.Scoped, ServiceLifetime.Scoped },
+                { Lifetime.Transient, ServiceLifetime.Transient },
+                { Lifetime.Singleton, ServiceLifetime.Singleton }
+            };
+
         private readonly IServiceCollection collection;
 
         public AspNetCoreResolverBuilder(IServiceCollection collection)
@@ -14,27 +23,27 @@
             this.collection = collection;
         }
 
-        public IDependencyResolverBuilder RegisterQueryHandlerAsync<THandler, TQuery, TResponse>()
+        public IDependencyResolverBuilder RegisterQueryHandlerAsync<THandler, TQuery, TResponse>(Lifetime lifetime = Lifetime.Scoped)
             where THandler : class, IQueryHandlerAsync<TQuery, TResponse>
             where TQuery : IQuery<TResponse>
         {
-            this.collection.AddScoped<IQueryHandlerAsync<TQuery, TResponse>, THandler>();
+            this.collection.Add(new ServiceDescriptor(typeof(IQueryHandlerAsync<TQuery, TResponse>), typeof(THandler), AspNetCoreResolverBuilder.LifetimeMapper[lifetime]));
             return this;
         }
 
-        public IDependencyResolverBuilder RegisterCommandHandlerAsync<THandler, TCommand>()
+        public IDependencyResolverBuilder RegisterCommandHandlerAsync<THandler, TCommand>(Lifetime lifetime = Lifetime.Scoped)
             where THandler : class, ICommandHandlerAsync<TCommand>
             where TCommand : ICommand
         {
-            this.collection.AddScoped<ICommandHandlerAsync<TCommand>, THandler>();
+            this.collection.Add(new ServiceDescriptor(typeof(ICommandHandlerAsync<TCommand>), typeof(THandler), AspNetCoreResolverBuilder.LifetimeMapper[lifetime]));
             return this;
         }
 
-        public IDependencyResolverBuilder RegisterCommandHandlerWithResponseAsync<THandler, TCommand, TResponse>()
+        public IDependencyResolverBuilder RegisterCommandHandlerWithResponseAsync<THandler, TCommand, TResponse>(Lifetime lifetime = Lifetime.Scoped)
             where THandler : class, ICommandHandlerWithResponseAsync<TCommand, TResponse>
             where TCommand : ICommand
         {
-            this.collection.AddScoped<ICommandHandlerWithResponseAsync<TCommand, TResponse>, THandler>();
+            this.collection.Add(new ServiceDescriptor(typeof(ICommandHandlerWithResponseAsync<TCommand, TResponse>), typeof(THandler), AspNetCoreResolverBuilder.LifetimeMapper[lifetime]));
             return this;
         }
 
