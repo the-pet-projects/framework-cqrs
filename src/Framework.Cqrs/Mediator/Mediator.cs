@@ -1,10 +1,9 @@
-namespace PetProjects.Framework.Cqrs.Mediator.V2
+namespace PetProjects.Framework.Cqrs.Mediator
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
     using PetProjects.Framework.Cqrs.Commands;
     using PetProjects.Framework.Cqrs.DependencyResolver;
     using PetProjects.Framework.Cqrs.Queries;

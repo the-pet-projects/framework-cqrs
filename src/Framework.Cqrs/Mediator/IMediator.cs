@@ -1,4 +1,4 @@
-﻿namespace PetProjects.Framework.Cqrs.Mediator.V2
+﻿namespace PetProjects.Framework.Cqrs.Mediator
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
