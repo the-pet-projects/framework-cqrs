@@ -27,5 +27,12 @@
 
             return handler.HandleAsync(command);
         }
+
+        public Task<TResponse> RunCommandAsync<TCommand, TResponse>(TCommand command) where TCommand : ICommand<TResponse>
+        {
+            var handler = this.dependencyResolver.ResolveFirstDependency<ICommandHandlerWithResponseAsync<TCommand, TResponse>>();
+
+            return handler.HandleAsync(command);
+        }
     }
 }
