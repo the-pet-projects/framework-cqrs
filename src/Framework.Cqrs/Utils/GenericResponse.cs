@@ -4,9 +4,23 @@ namespace PetProjects.Framework.Cqrs.Utils
 
     public class Response<TResponseData>
     {
-        public virtual TResponseData Data { get; set; }
+        public Response(Exception ex)
+        {
+            this.Data = default(TResponseData);
+            this.Exception = ex;
+        }
 
-        public virtual Exception Exception { get; set; }
+        public Response(TResponseData data)
+        {
+            this.Data = data;
+            this.Exception = null;
+        }
+
+        public virtual TResponseData Data { get; }
+
+        public virtual Exception Exception { get; }
+
+        public virtual bool Success => !this.HasException();
 
         public virtual bool HasException()
         {

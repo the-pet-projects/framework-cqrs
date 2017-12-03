@@ -3,10 +3,10 @@ namespace PetProjects.Framework.Cqrs.DependencyResolver
     using System;
     using System.Collections.Generic;
 
-    public interface IDependencyResolver
+    public interface IDependencyResolver : IDisposable
     {
-        object GetInstance(Type type);
+        IEnumerable<T> ResolveDependencies<T>();
 
-        IEnumerable<T> GetInstance<T>();
+        T ResolveFirstDependency<T>();
     }
 }
