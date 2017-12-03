@@ -15,6 +15,6 @@
 
         IDependencyResolverBuilder RegisterCommandHandlerWithResponseAsync<THandler, TCommand, TResponse>(Lifetime lifetime = Lifetime.Scoped)
             where THandler : class, ICommandHandlerWithResponseAsync<TCommand, TResponse>
-            where TCommand : ICommand;
+            where TCommand : ICommand<TResponse>;
     }
 }

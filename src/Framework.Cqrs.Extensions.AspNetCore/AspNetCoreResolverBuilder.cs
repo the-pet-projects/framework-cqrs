@@ -41,7 +41,7 @@
 
         public IDependencyResolverBuilder RegisterCommandHandlerWithResponseAsync<THandler, TCommand, TResponse>(Lifetime lifetime = Lifetime.Scoped)
             where THandler : class, ICommandHandlerWithResponseAsync<TCommand, TResponse>
-            where TCommand : ICommand
+            where TCommand : ICommand<TResponse>
         {
             this.collection.Add(new ServiceDescriptor(typeof(ICommandHandlerWithResponseAsync<TCommand, TResponse>), typeof(THandler), AspNetCoreResolverBuilder.LifetimeMapper[lifetime]));
             return this;
